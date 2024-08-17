@@ -1,4 +1,19 @@
 // class syntax in typeScript is similar to the syntax in javaScript but we have to declare the type of the variables before we can use them in the constructor as shown in the example below.
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var User = /** @class */ (function () {
     function User(email, name) {
         this.city = "haridwar";
@@ -63,3 +78,36 @@ var AppleUser = /** @class */ (function () {
     });
     return AppleUser;
 }());
+// inheritance and 'protected' access modifier.'protected' is useful in the case of inheritance as the variable or method which is marked as protected can be used or is accessable in the class which is inheriting the variable's class.In the example below we see a class 'SubUser' inheriting the class 'GoogleUser' using the 'extends' keyword and the protected variable 'courses' of class GoogleUser is also accessable in the class 'SubUser'.
+var GoogleUser = /** @class */ (function () {
+    function GoogleUser(email, name, userId) {
+        this.email = email;
+        this.name = name;
+        this.userId = userId;
+        this.courses = 1;
+    }
+    Object.defineProperty(GoogleUser.prototype, "courseCount", {
+        get: function () {
+            return this.courses;
+        },
+        set: function (courseNum) {
+            if (courseNum <= 1) {
+                throw new Error("product count should be more than one.");
+            }
+            this.courses = courseNum;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    return GoogleUser;
+}());
+var SubUser = /** @class */ (function (_super) {
+    __extends(SubUser, _super);
+    function SubUser() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    SubUser.prototype.changeCourseCount = function () {
+        return this.courses + 2;
+    };
+    return SubUser;
+}(GoogleUser));
